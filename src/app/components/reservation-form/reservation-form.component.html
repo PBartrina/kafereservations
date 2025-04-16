@@ -1,1 +1,172 @@
-<p>reservation-form works!</p>
+<div class="reservation-form-container">
+  <h2>Make a Reservation at Kafè</h2>
+  
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="reservation-form">
+    <!-- Date and Time Section -->
+    <div class="form-section">
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input 
+          type="date" 
+          id="date" 
+          formControlName="date"
+          [min]="minDate"
+          [max]="maxDate"
+        >
+        <div class="error-message" *ngIf="date?.touched && date?.errors">
+          <span *ngIf="date?.errors?.['required']">Date is required</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="time">Time</label>
+        <select id="time" formControlName="time">
+          <option value="">Select a time</option>
+          <option *ngFor="let slot of timeSlots" [value]="slot">
+            {{slot}}
+          </option>
+        </select>
+        <div class="error-message" *ngIf="time?.touched && time?.errors">
+          <span *ngIf="time?.errors?.['required']">Time is required</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Party Details Section -->
+    <div class="form-section">
+      <div class="form-group">
+        <label for="partySize">Party Size</label>
+        <input 
+          type="number" 
+          id="partySize" 
+          formControlName="partySize"
+          min="1"
+          max="12"
+        >
+        <div class="error-message" *ngIf="partySize?.touched && partySize?.errors">
+          <span *ngIf="partySize?.errors?.['required']">Party size is required</span>
+          <span *ngIf="partySize?.errors?.['min']">Minimum party size is 1</span>
+          <span *ngIf="partySize?.errors?.['max']">Maximum party size exceeded for selected region</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="childrenCount">Number of Children</label>
+        <input 
+          type="number" 
+          id="childrenCount" 
+          formControlName="childrenCount"
+          min="0"
+        >
+        <div class="error-message" *ngIf="childrenCount?.touched && childrenCount?.errors">
+          <span *ngIf="childrenCount?.errors?.['min']">Cannot be negative</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Region Selection -->
+    <div class="form-section">
+      <div class="form-group">
+        <label for="region">Preferred Region</label>
+        <select id="region" formControlName="region">
+          <option value="">Select a dining region</option>
+          <option *ngFor="let region of diningRegions" [value]="region.id">
+            {{region.name}}
+          </option>
+        </select>
+        <div class="error-message" *ngIf="region?.touched && region?.errors">
+          <span *ngIf="region?.errors?.['required']">Please select a dining region</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="form-section">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name"
+          placeholder="Enter your full name"
+        >
+        <div class="error-message" *ngIf="name?.touched && name?.errors">
+          <span *ngIf="name?.errors?.['required']">Name is required</span>
+          <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          placeholder="Enter your email"
+        >
+        <div class="error-message" *ngIf="email?.touched && email?.errors">
+          <span *ngIf="email?.errors?.['required']">Email is required</span>
+          <span *ngIf="email?.errors?.['email'] || email?.errors?.['pattern']">Please enter a valid email address</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input 
+          type="tel" 
+          id="phone" 
+          formControlName="phone"
+          placeholder="Enter 10-digit phone number"
+        >
+        <div class="error-message" *ngIf="phone?.touched && phone?.errors">
+          <span *ngIf="phone?.errors?.['required']">Phone number is required</span>
+          <span *ngIf="phone?.errors?.['pattern']">Please enter a valid 10-digit phone number</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Options -->
+    <div class="form-section">
+      <div class="form-group checkbox-group">
+        <label>
+          <input 
+            type="checkbox" 
+            formControlName="smoking"
+          > Smoking preference
+        </label>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label>
+          <input 
+            type="checkbox" 
+            formControlName="birthday"
+          > Celebrating a birthday?
+        </label>
+      </div>
+
+      <div class="form-group" *ngIf="birthday?.value">
+        <label for="birthdayName">Birthday Person's Name</label>
+        <input 
+          type="text" 
+          id="birthdayName" 
+          formControlName="birthdayName"
+          placeholder="Enter the name"
+        >
+        <div class="error-message" *ngIf="birthdayName?.touched && birthdayName?.errors">
+          <span *ngIf="birthdayName?.errors?.['required']">Please enter the name of the person celebrating</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        [disabled]="reservationForm.invalid || isSubmitting"
+      >
+        {{ isSubmitting ? 'Checking availability...' : 'Continue to Review' }}
+      </button>
+    </div>
+  </form>
+</div>

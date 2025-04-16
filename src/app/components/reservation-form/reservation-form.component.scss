@@ -1,0 +1,141 @@
+.reservation-form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  h2 {
+    font-size: 1.75rem;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+}
+
+.reservation-form {
+  .form-section {
+    margin-bottom: 2rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      font-weight: 500;
+      color: #2c3e50;
+      &::after {
+        content: "*";
+        color: #e74c3c;
+        margin-left: 4px;
+      }
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.375rem;
+      font-size: 1rem;
+      color: #1e293b;
+      background-color: white;
+      transition: border-color 0.2s ease;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      }
+
+      &:disabled {
+        background-color: #f1f5f9;
+        cursor: not-allowed;
+      }
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 10.5l-4-4h8l-4 4z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    &.checkbox-group {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+
+      label {
+        margin: 0;
+        &::after {
+          content: none;
+        }
+      }
+
+      input[type="checkbox"] {
+        width: auto;
+        margin: 0;
+      }
+    }
+  }
+
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+
+    button {
+      padding: 0.75rem 2rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background-color: #2980b9;
+      }
+
+      &:disabled {
+        background-color: #94a3b8;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Make form sections responsive
+@media (min-width: 640px) {
+  .form-section {
+    grid-template-columns: repeat(2, 1fr);
+
+    // Full width items
+    .form-group:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+@media (max-width: 639px) {
+  .reservation-form-container {
+    padding: 1rem;
+  }
+
+  .form-section {
+    grid-template-columns: 1fr;
+  }
+}

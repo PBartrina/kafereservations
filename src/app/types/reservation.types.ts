@@ -1,7 +1,17 @@
 export type DiningRegion = 'main-hall' | 'bar' | 'riverside' | 'riverside-smoking';
 
-export interface ReservationDetails {
-  date: Date;
+export interface DiningRegionConfig {
+  id: DiningRegion;
+  name: string;
+  maxPartySize: number;
+  maxCapacity: number;
+  allowsChildren: boolean;
+  allowsSmoking: boolean;
+}
+
+export interface Reservation {
+  id: string;
+  date: string;
   time: string;
   name: string;
   email: string;
@@ -16,13 +26,12 @@ export interface ReservationDetails {
 
 export interface TimeSlot {
   time: string;
-  isAvailable: boolean;
+  available: boolean;
 }
 
-export interface RegionAvailability {
+export interface AvailabilityRequest {
+  date: string;
+  time: string;
   region: DiningRegion;
-  maxCapacity: number;
-  availableSlots: number;
-  allowsChildren: boolean;
-  allowsSmoking: boolean;
+  partySize: number;
 }
