@@ -13,22 +13,31 @@
           [min]="minDate"
           [max]="maxDate"
         >
-        <div class="error-message" *ngIf="date?.touched && date?.errors">
-          <span *ngIf="date?.errors?.['required']">Date is required</span>
-        </div>
+        @if (date?.touched && date?.errors) {
+          <div class="error-message">
+            @if (date?.errors?.['required']) {
+            <span>Date is required</span>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="time">Time</label>
         <select id="time" formControlName="time">
           <option value="">Select a time</option>
-          <option *ngFor="let slot of timeSlots" [value]="slot">
-            {{slot}}
-          </option>
+          @for (slot of timeSlots; track slot.time) {
+            <option [value]="slot.time">{{slot.time}}</option>
+          }
         </select>
-        <div class="error-message" *ngIf="time?.touched && time?.errors">
-          <span *ngIf="time?.errors?.['required']">Time is required</span>
-        </div>
+        @if (time?.touched && time?.errors) {
+          <div class="error-message" >
+            @if (time?.errors?.['required']) {
+            <span>Time is required</span>
+            }
+          </div>
+        }
+        
       </div>
     </div>
 
@@ -43,11 +52,19 @@
           min="1"
           max="12"
         >
-        <div class="error-message" *ngIf="partySize?.touched && partySize?.errors">
-          <span *ngIf="partySize?.errors?.['required']">Party size is required</span>
-          <span *ngIf="partySize?.errors?.['min']">Minimum party size is 1</span>
-          <span *ngIf="partySize?.errors?.['max']">Maximum party size exceeded for selected region</span>
+        @if (partySize?.touched && partySize?.errors) {
+        <div class="error-message" >
+          @if (partySize?.errors?.['required']) {
+          <span>Party size is required</span>
+          }
+          @if (partySize?.errors?.['min']) {
+          <span>Minimum party size is 1</span>
+          }
+          @if (partySize?.errors?.['max']) {
+          <span>Maximum party size exceeded for selected region</span>
+          }
         </div>
+      }
       </div>
 
       <div class="form-group">
@@ -58,9 +75,13 @@
           formControlName="childrenCount"
           min="0"
         >
-        <div class="error-message" *ngIf="childrenCount?.touched && childrenCount?.errors">
-          <span *ngIf="childrenCount?.errors?.['min']">Cannot be negative</span>
+        @if (childrenCount?.touched && childrenCount?.errors) {
+        <div class="error-message" >
+          @if (childrenCount?.errors?.['min']) {
+          <span>Cannot be negative</span>
+          }
         </div>
+      }
       </div>
     </div>
 
@@ -70,13 +91,19 @@
         <label for="region">Preferred Region</label>
         <select id="region" formControlName="region">
           <option value="">Select a dining region</option>
-          <option *ngFor="let region of diningRegions" [value]="region.id">
+          @for (region of diningRegions; track region.id) {
+          <option [value]="region.id">
             {{region.name}}
           </option>
+          }
         </select>
-        <div class="error-message" *ngIf="region?.touched && region?.errors">
-          <span *ngIf="region?.errors?.['required']">Please select a dining region</span>
+        @if (region?.touched && region?.errors) {
+        <div class="error-message" >
+          @if (region?.errors?.['required']) {
+          <span>Please select a dining region</span>
+          }
         </div>
+      }
       </div>
     </div>
 
@@ -90,10 +117,16 @@
           formControlName="name"
           placeholder="Enter your full name"
         >
-        <div class="error-message" *ngIf="name?.touched && name?.errors">
-          <span *ngIf="name?.errors?.['required']">Name is required</span>
-          <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters</span>
+        @if (name?.touched && name?.errors) {
+        <div class="error-message" >
+          @if (name?.errors?.['required']) {
+          <span>Name is required</span>
+          }
+          @if (name?.errors?.['minlength']) {
+          <span>Name must be at least 2 characters</span>
+          }
         </div>
+      }
       </div>
 
       <div class="form-group">
@@ -104,10 +137,16 @@
           formControlName="email"
           placeholder="Enter your email"
         >
-        <div class="error-message" *ngIf="email?.touched && email?.errors">
-          <span *ngIf="email?.errors?.['required']">Email is required</span>
-          <span *ngIf="email?.errors?.['email'] || email?.errors?.['pattern']">Please enter a valid email address</span>
+        @if (email?.touched && email?.errors) {
+        <div class="error-message" >
+          @if (email?.errors?.['required']) {
+          <span>Email is required</span>
+          }
+          @if (email?.errors?.['email'] || email?.errors?.['pattern']) {
+          <span>Please enter a valid email address</span>
+          }
         </div>
+      }
       </div>
 
       <div class="form-group">
@@ -118,10 +157,16 @@
           formControlName="phone"
           placeholder="Enter 10-digit phone number"
         >
-        <div class="error-message" *ngIf="phone?.touched && phone?.errors">
-          <span *ngIf="phone?.errors?.['required']">Phone number is required</span>
-          <span *ngIf="phone?.errors?.['pattern']">Please enter a valid 10-digit phone number</span>
+        @if (phone?.touched && phone?.errors) {
+        <div class="error-message" >
+          @if (phone?.errors?.['required']) {
+          <span>Phone number is required</span>
+          }
+          @if (phone?.errors?.['pattern']) {
+          <span>Please enter a valid 10-digit phone number</span>
+          }
         </div>
+      }
       </div>
     </div>
 
@@ -145,7 +190,8 @@
         </label>
       </div>
 
-      <div class="form-group" *ngIf="birthday?.value">
+      @if (birthday?.value) {
+      <div class="form-group">
         <label for="birthdayName">Birthday Person's Name</label>
         <input 
           type="text" 
@@ -153,10 +199,15 @@
           formControlName="birthdayName"
           placeholder="Enter the name"
         >
-        <div class="error-message" *ngIf="birthdayName?.touched && birthdayName?.errors">
-          <span *ngIf="birthdayName?.errors?.['required']">Please enter the name of the person celebrating</span>
+      @if (birthdayName?.touched && birthdayName?.errors) {
+        <div class="error-message" >
+          @if (birthdayName?.errors?.['required']) {
+          <span>Please enter the name of the person celebrating</span>
+          }
         </div>
+      }
       </div>
+      }
     </div>
 
     <!-- Submit Button -->

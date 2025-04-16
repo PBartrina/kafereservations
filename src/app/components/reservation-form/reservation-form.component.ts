@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MockDataService } from '../../services/mock-data.service';
-import { DiningRegionConfig } from '../../types/reservation.types';
+import { DiningRegionConfig, TimeSlot } from '../../types/reservation.types';
 
 @Component({
   selector: 'app-reservation-form',
@@ -16,7 +16,7 @@ import { DiningRegionConfig } from '../../types/reservation.types';
 export class ReservationFormComponent implements OnInit, OnDestroy {
   reservationForm!: FormGroup;
   diningRegions: DiningRegionConfig[] = [];
-  timeSlots: string[] = [];
+  timeSlots: TimeSlot[] = [];
   minDate = '2024-07-24';
   maxDate = '2024-07-31';
   isSubmitting = false;
@@ -131,7 +131,7 @@ export class ReservationFormComponent implements OnInit, OnDestroy {
   }
 
   private loadTimeSlots(): void {
-    this.timeSlots = this.mockDataService.getTimeSlots().map(slot => slot.time);
+    this.timeSlots = this.mockDataService.getTimeSlots();
   }
 
   onSubmit(): void {
